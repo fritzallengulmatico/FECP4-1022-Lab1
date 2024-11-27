@@ -20,7 +20,10 @@ Steps:
    sed 's/PLACEHOLDER_NAMESPACE/development/' app-deployment-template.yaml > dev-deployment.yaml
    -e 's/replicas: .*$/replicas: 3/' app-deployment-template.yaml > production-deployment.yaml
 
-5. Expose the production environment
+5. Apply the deployment using the templated that was edited
+   kubectl apply -f production-deployment.yaml
+
+7. Expose the production environment
    kubectl expose deployment nginx-app \
    --type=NodePort \
    --name=nginx-service \
@@ -28,7 +31,8 @@ Steps:
    --target-port=80 \
    --namespace=production
 
-6. Verify the deployment
+8. Verify the deployment by executing pod and checking env variables
+   
    kubectl get pods -n production
    kubectl exec -it nginx-app-65968468b6-x64tw -n production -- /bin/bash
            //(one pod's name is nginx-app-65968468b6-x64tw)
